@@ -8,14 +8,16 @@
             <label style="font-weight:bold">Average Sales:</label> ${{$averageOrderSales}}</span>
         </div>
         <div class="card-body">
-            <div class="navigation">
-                @if($previousPage)
-                <a  href="/orders?page={{$previousPage}}">Previous</a>&nbsp
-                @endif
-                @if($nextPage)
-                <a  href="/orders?page={{$nextPage}}">Next</a>
-                @endif
+            <div class="filters">
+                <form action="/orders">
+                    <label>Product Filter</label>:&nbsp
+                    <input type="text" name="filters[product_name]" value="@if(!empty($filters['product_name'])){{$filters['product_name']}}@endif">&nbsp
+                    <label>SKU Filter</label>:&nbsp
+                    <input type="text" name="filters[sku]" value="@if(!empty($filters['sku'])){{$filters['sku']}}@endif">&nbsp
+                    <input type="submit" name="submit" value="submit">
+                </form>
             </div>
+            @include('nav')
             <table class="table table-bordered">
                 <theader>
                     <th style="color:white;background-color:blue">Customer</th>
@@ -38,7 +40,7 @@
                         <td>{{$order->color}}</td>
                         <td>{{$order->size}}</td>
                         <td>{{$order->order_status}}</td>
-                        <td>{{$order->total_cents}}</td>                        
+                        <td>${{number_format($order->total_cents/100.00, 2)}}</td>                        
                         <td>{{$order->transaction_id}}</td>
                         <td>{{$order->shipper_name}}</td>
                         <td>{{$order->tracking_number}}</td>                
@@ -46,14 +48,7 @@
                 @endforeach 
                 </tbody>   
             </table>
-            <div class="navigation">
-                @if($previousPage)
-                <a  href="/orders?page={{$previousPage}}">Previous</a>
-                @endif
-                @if($nextPage)
-                <a  href="/orders?page={{$nextPage}}">Next</a>
-                @endif
-            </div>
+            @include('nav')
         </div>
     </div>
 </div>

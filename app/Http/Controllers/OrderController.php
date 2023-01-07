@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Order;
+use App\Services\OrderService;
 
 class OrderController extends Controller
 {
@@ -16,34 +17,50 @@ class OrderController extends Controller
     public function index(Request $request) {
         $page = $request->get('page');
         if (empty($page)) {
-            $page = 1;
+            $page = 0;
+        }
+
+        $filters = $request->get('filters');
+        if (empty($filters)) {
+            $filters = [];
+        }
+
+        $filterString = '';
+        $first = true;
+        foreach ($filters as $index=>$value) {            
+            if (!$first) {
+                $filterString .= '&';
+            } else {
+                $first = false;
+            }
+            $filterString .= 'filters[' . $index . ']=' . $value;
         }
 
         $user = auth()->user();
         $limit = 20;
-        $orders = DB::table('orders as o')
-            ->selectRaw('o.name, o.email, p.product_name, i.color, i.size,
-            o.order_status, o.total_cents, o.transaction_id, o.shipper_name, o.tracking_number')
-            ->join('products as p', 'p.id', 'o.product_id')
-            ->join('inventory  as i', 'i.id', 'o.inventory_id')
-            ->where('p.admin_id', $user->id)
-            ->limit($limit)
-            ->offset($limit*$page)
-            ->get();
+        
+        $orders = app(OrderService::class)->getUserOrders($user->id, $limit, $page, $filters);
+        $orderSums = app(OrderService::class)->getUserOrderSums($user->id, $filters);
 
-        $orderSums = DB::table('orders as o')
-            ->selectRaw('count(*) as total_orders, SUM(o.total_cents)/100.00 as total_order_sales, (SUM(o.total_cents)/count(*))/100.00 average_order_sales')
-            ->join('products as p', 'p.id', 'o.product_id')
-            ->join('inventory  as i', 'i.id', 'o.inventory_id')
-            ->where('p.admin_id', $user->id)
-            ->first();
+        
 
-        $lastPage = intVal($orderSums->total_orders/20);
+        $nav = [];
+        if ($orderSums->total_orders > $limit) { 
+            $lastPage = intVal($orderSums->total_orders/$limit);       
+            $nav = [                
+                'path'=>'\orders',
+                'nextPage'=>$page>=$lastPage?false:$page+1,
+                'previousPage'=>$page<=0?false:$page-1,
+                'page'=>$page,
+                'lastPage'=>$lastPage,
+            ];
+        }
 
         $view = view('orders')->with([
             'orders'=>$orders,
-            'nextPage'=>$page>=$lastPage?false:$page+1,
-            'previousPage'=>$page<=1?false:$page-1,
+            'nav'=>$nav,
+            'filters'=>$filters,
+            'filterString'=>$filterString,
             'totalOrderSales'=>number_format($orderSums->total_order_sales,2),
             'averageOrderSales'=>number_format($orderSums->average_order_sales,2),
         ] );        

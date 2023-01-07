@@ -20,8 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::controller(OrderController::class)->group(function() {
-    Route::get('/get-orders', 'getOrders');
-});
-
 
