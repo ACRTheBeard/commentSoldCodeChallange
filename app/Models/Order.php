@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 
 class Order extends Model {
-
+    protected $table = 'orders';
     protected $fillable = [
         "id",
         "product_id",
@@ -39,5 +39,9 @@ class Order extends Model {
 
     public function _constructor(array $data) {
         $this->fill($data);
+    }
+
+    public function products() {
+        
     }
 }
