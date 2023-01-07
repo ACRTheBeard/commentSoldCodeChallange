@@ -12,6 +12,7 @@ Class OrderService {
      * @param Integer $userId 
      * @param Integer $limit
      * @param Integer $page
+     * @param array $filters
      * @return Collection $orders
      */
     public function getUserOrders($userId,$limit,$page,$filters) {        
@@ -31,6 +32,7 @@ Class OrderService {
 
     /**
      * @param Integer $userId 
+     * @param array $filters
      * @return Collection $orderSums
      */
     public function getUserOrderSums($userId, $filters) {

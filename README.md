@@ -1,66 +1,62 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CommentSold Code Challange
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## SETUP 
 
-## About Laravel
+### Dependencies
+* PHP 8.2
+* MySql8.0
+* Node 16.14.0
+* npm 8.5.1
+* MySqlWorkbench (or any db administration tool that can create tables with csv files)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Database setup
+* created a user called appUser
+* gave it a pass (you can use the example.env values if you so choose, or change them)
+* used the MySqlWorkbench CSV import wizard to create and import tables and data (inventory.csv, users.csv, products.csv and inventory.ccsv ar all in the project data directory)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### App setup and serv
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+From a terminal in the project directory
+* run ```composer install```
+* run ```npm run build && npm run dev```
+* ctrl+c to terminate the dev run as it just builds assets in this case
 
-## Learning Laravel
+### Running the app
+* run ```php artisan serve```  from the project directory
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Features
+All features are tied to the user that is logged in and no products, inventory, or orders from other users 
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# Authenticated login
+* You can login as any of the provided users
+* The user is persisted until logged out
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Products
+* shows a list of products 20 at a time
+* groups skus 
 
-## Laravel Sponsors
+# Inventory
+* Shows list of inventory 20 at a time
+* Shows a count of all inventory items
+* Allows filtering by product id
+* Navigation respects the filters
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+# Orders
+* Shows list of orders is 20 at a time
+* They can be filterd by SKU or product name
+* Bavigation respects the filters
+* Totals and Average Totals are provided and respect the filters
+* Filters are partail. (e.g. entering Lagenlook  will return Lagenlook Dungarees, Lagenlook Socks, Lagenlook Tie, etc)
 
-### Premium Partners
+# BUGS / TECH DEBT
+* Filters cause a trailing & in the url when navigating.  This is visual only
+* Some extra code is probably present because of setting up vue via artisan command.
+* Vue setup did not take so blade files were used instead (This was outside of my confort zone anyways)
+* Having to run ```npm run dev``` on a cold start is a bit annoying, having working vue installation wold solve this
+* 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
