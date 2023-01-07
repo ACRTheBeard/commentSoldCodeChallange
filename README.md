@@ -24,8 +24,10 @@
 
 From a terminal in the project directory
 * run ```composer install```
-* run ```npm run build && npm run dev```
-* ctrl+c to terminate the dev run as it just builds assets in this case
+* run ```npm install```
+* run ```npm run build```
+* copy the .env.example to .env
+* make any changes the the .env neccessary to connect to your Database
 
 ### Running the app
 * run ```php artisan serve```  from the project directory
@@ -58,9 +60,9 @@ All features are tied to the user that is logged in and no products, inventory, 
 * Filters cause a trailing & in the url when navigating.  This is visual only
 * Some extra code is probably present because of setting up vue via artisan command.
 * Vue setup did not take so blade files were used instead (This was outside of my confort zone anyways)
-* Having to run ```npm run dev``` on a cold start is a bit annoying, having working vue installation wold solve this
 * This was created on a windows box, something I do not prefer to do.
 * CSS could be better / more targetted
+* Product Crud is not completed
  
 
 
